@@ -61,6 +61,10 @@
 }
 
 @layer base {
+  :root {
+    --header-height: 3.5rem;
+  }
+
   * {
     @apply border-border;
   }
