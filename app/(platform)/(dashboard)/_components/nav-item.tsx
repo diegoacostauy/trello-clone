@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface NavItemProps {
   isExpanded: boolean;
@@ -84,7 +84,7 @@ export default function NavItem({
       <AccordionContent className="pt-1 text-neutral-700">
         {routes.map((route) => (
           <Button
-            key={route.label}
+            key={route.href}
             size="sm"
             onClick={() => handleClick(route.href)}
             variant="ghost"
@@ -100,3 +100,16 @@ export default function NavItem({
     </AccordionItem>
   );
 }
+
+function NavItemSkeleton() {
+  return (
+    <div className="flex items-center gap-x-2">
+      <div className="w-10 h-10 relative shrink-0">
+        <Skeleton className="h-full w-full absolute"></Skeleton>
+      </div>
+      <Skeleton className="h-10 w-full" />
+    </div>
+  )
+}
+
+NavItem.Skeleton = NavItemSkeleton;

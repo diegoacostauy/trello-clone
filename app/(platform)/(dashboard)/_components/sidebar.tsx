@@ -20,8 +20,7 @@ export default function Sidebar({
   storageKey = "t-sidebar-state"
 }: SidebarProps) {
 
-  const [expanded, setExpanded] = useLocalStorage<Record<string, any>>(storageKey, {});
-  console.log(expanded);
+  const [expanded, setExpanded] = useLocalStorage<Record<string, boolean>>(storageKey, {});
 
   const {organization: activeOrganization, isLoaded: isLoadedOrg} = useOrganization();
 
@@ -48,7 +47,17 @@ export default function Sidebar({
 
   if (!isLoadedOrg || !isLoadedOrgList || userMemberships.isLoading) {
     return (
-      <Skeleton/>
+      <>
+        <div className="flex items-center justify-between mb-1">
+          <Skeleton className="h-8 w-1/2"/>
+          <Skeleton className="h-8 w-8"/>
+        </div>
+        <div className="space-y-2">
+          <NavItem.Skeleton />
+          <NavItem.Skeleton />
+          <NavItem.Skeleton />
+        </div>
+      </>
     )
   }
 
