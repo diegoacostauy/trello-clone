@@ -19,6 +19,8 @@ const boardSchema = z.object({
 });
 
 export async function createBoard(prevState: CreateBoardState, formData: FormData): Promise<CreateBoardState> {
+  // parse will throw an error if the fields are missing or not valid, while
+  // SafeParse will not
   const validatedFields = boardSchema.safeParse({
     title: formData.get('title')
   });
