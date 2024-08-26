@@ -5,6 +5,8 @@ import {createBoard} from "@/actions/create-board";
 import { cn } from "@/lib/utils";
 import { useFormState } from "react-dom";
 import { useAction } from "@/hooks/use-action";
+import FormInput from "@/components/form/form-input";
+import FormSubmit from "@/components/form/form-submit";
 
 export default function BoardForm() {
   const { execute, isLoading, fieldErrors, error, data } = useAction(createBoard, {
@@ -24,27 +26,14 @@ export default function BoardForm() {
 
   return (
     <form action={onSubmit} className="flex gap-x-5">
-      <div className="flex flex-col gap-2">
-        <input
-          type="text"
-          name="title"
-          id="title"
-          required
-          placeholder="Enter a board title"
-          className={cn(
-            "border p-1",
-            fieldErrors?.title?.length
-              ? "border-red-200 ring-4 ring-red-100"
-              : "",
-          )}
-        />
-        { fieldErrors?.title?.map((error, index) => (
-          <div key={error} className="text-sm text-red-400">
-            {error}
-          </div>
-        ))}
-      </div>
-      <Button type="submit">Create</Button>
+      <FormInput
+        label="Board title"
+        id="title"
+        errors={fieldErrors || {}}
+      />
+      <FormSubmit>
+        Save
+      </FormSubmit>
     </form>
   );
 }
