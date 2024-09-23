@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import Sidebar from "@/app/(platform)/(dashboard)/_components/sidebar";
 import { Button } from "@/components/ui/button";
@@ -6,7 +6,7 @@ import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { useMobileSidebar } from "@/hooks/use-mobile-sidebar";
 import { MenuIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function MobileSidebar() {
   const pathname = usePathname();
@@ -31,7 +31,7 @@ export default function MobileSidebar() {
     <>
       <Button
         onClick={onOpen}
-        className="block md:hidden"
+        className="block bg-gray-100 md:hidden"
         variant="ghost"
         size="sm"
       >
@@ -39,9 +39,7 @@ export default function MobileSidebar() {
       </Button>
       <Sheet open={isOpen} onOpenChange={onClose}>
         <SheetContent side="left" className="p-2 pt-10">
-          <SheetTitle className="sr-only">
-            Menu
-          </SheetTitle>
+          <SheetTitle className="sr-only">Menu</SheetTitle>
           <Sidebar storageKey="t-sidebar-mobile-state" />
         </SheetContent>
       </Sheet>

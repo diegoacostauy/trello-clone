@@ -8,34 +8,53 @@ import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 
 const handler = async (data: InputType): Promise<ReturnType> => {
-  const { userId } = auth();
+  const { userId, orgId } = auth();
 
-
-  if (!userId) {
+  if (!userId || !orgId) {
     return {
-      error: "Unahthorized!",
-    }
+      error: "Unauthorized!",
+    };
   }
 
-  const { title } = data;
+  const { title, image } = data;
   let board;
+  const [imageId, imageThumbUrl, imageFullUrl, imageLinkHtml, imageUserName] =
+    image.split("|");
+
+  if (
+    !imageId ||
+    !imageThumbUrl ||
+    !imageFullUrl ||
+    !imageLinkHtml ||
+    !imageUserName
+  ) {
+    return {
+      error: "Missing fields. Failed to create board.",
+    };
+  }
 
   try {
     board = await db.board.create({
       data: {
         title,
+        orgId,
+        imageId,
+        imageThumbUrl,
+        imageFullUrl,
+        imageLinkHtml,
+        imageUserName,
       },
     });
   } catch (error) {
     return {
-      error: "Failed to create."
-    }
+      error: "Failed to create.",
+    };
   }
 
   revalidatePath(`/boards/${board.id}`);
   return {
-    data: board
-  }
-}
+    data: board,
+  };
+};
 
 export const createBoard = createSafeAction(CreateBoard, handler);

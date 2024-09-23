@@ -14,59 +14,59 @@ interface FormInputProps {
   placeholder?: string;
   required?: boolean;
   disabled?: boolean;
-  errors: Record<string, string[] | undefined>;
+  errors?: Record<string, string[] | undefined>;
   className?: string;
   defaultValue?: string;
   onBlur?: () => void;
 }
 
-const FormInput = forwardRef<HTMLInputElement, FormInputProps>(({
-  id,
-  label,
-  type,
-  placeholder,
-  required,
-  disabled,
-  errors,
-  className,
-  defaultValue = "",
-  onBlur,
-}, ref) => {
-  const { pending } = useFormStatus();
-  return (
-    <div className="space-y-2">
-      <div className="space-y-1">
-        {
-          label && (
-            <Label htmlFor={id} className="text-sm font-normal text-neutral-700">
+const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
+  (
+    {
+      id,
+      label,
+      type,
+      placeholder,
+      required,
+      disabled,
+      errors,
+      className,
+      defaultValue = "",
+      onBlur,
+    },
+    ref,
+  ) => {
+    const { pending } = useFormStatus();
+    return (
+      <div className="space-y-2">
+        <div className="space-y-1">
+          {label && (
+            <Label
+              htmlFor={id}
+              className="text-sm font-normal text-neutral-700"
+            >
               {label}
             </Label>
-          )
-        }
-        <Input
-          onBlur={onBlur}
-          defaultValue={defaultValue}
-          ref={ref}
-          required={required}
-          name={id}
-          id={id}
-          placeholder={placeholder}
-          disabled={disabled || pending}
-          type={type}
-          className={cn(
-            "text-sm px-2 py-1 h-10",
-            className
           )}
-          aria-describedby={`${id}-error`}
-        />
+          <Input
+            onBlur={onBlur}
+            defaultValue={defaultValue}
+            ref={ref}
+            required={required}
+            name={id}
+            id={id}
+            placeholder={placeholder}
+            disabled={disabled || pending}
+            type={type}
+            className={cn("h-10 px-2 py-1 text-sm", className)}
+            aria-describedby={`${id}-error`}
+          />
+        </div>
+        {errors && <FormErrors id={id} errors={errors} />}
       </div>
-      <FormErrors
-        id={id}
-        errors={errors}
-      />
-    </div>
-  )
-});
+    );
+  },
+);
 
 FormInput.displayName = "FormInput";
 
