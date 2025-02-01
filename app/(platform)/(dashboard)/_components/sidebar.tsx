@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import Link from "next/link";
 import { Plus } from "lucide-react";
@@ -8,48 +8,51 @@ import { useOrganization, useOrganizationList } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Accordion } from "@/components/ui/accordion";
-import NavItem from "@/app/(platform)/(dashboard)/_components/nav-item";
+import { NavItem } from "@/app/(platform)/(dashboard)/_components/nav-item";
 
 interface SidebarProps {
   storageKey?: string;
 }
 
+export function Sidebar({ storageKey = "t-sidebar-state" }: SidebarProps) {
+  const [expanded, setExpanded] = useLocalStorage<Record<string, boolean>>(
+    storageKey,
+    {},
+  );
 
-export default function Sidebar({
-  storageKey = "t-sidebar-state"
-}: SidebarProps) {
-
-  const [expanded, setExpanded] = useLocalStorage<Record<string, boolean>>(storageKey, {});
-
-  const {organization: activeOrganization, isLoaded: isLoadedOrg} = useOrganization();
+  const { organization: activeOrganization, isLoaded: isLoadedOrg } =
+    useOrganization();
 
   const { userMemberships, isLoaded: isLoadedOrgList } = useOrganizationList({
     userMemberships: {
-      infinite: true
+      infinite: true,
     },
   });
 
-  const defaultAccordionValue: string[] = Object.keys(expanded).reduce((acc: string[], key) => {
-    if (expanded[key]) {
-      acc.push(key)
-    }
+  const defaultAccordionValue: string[] = Object.keys(expanded).reduce(
+    (acc: string[], key) => {
+      if (expanded[key]) {
+        acc.push(key);
+      }
 
-    return acc;
-  }, []);
+      return acc;
+    },
+    [],
+  );
 
   const onExpand = (id: string) => {
-    setExpanded(curr => ({
+    setExpanded((curr) => ({
       ...curr,
-      [id]: !expanded[id]
-    }))
-  }
+      [id]: !expanded[id],
+    }));
+  };
 
   if (!isLoadedOrg || !isLoadedOrgList || userMemberships.isLoading) {
     return (
       <>
-        <div className="flex items-center justify-between mb-1">
-          <Skeleton className="h-8 w-1/2"/>
-          <Skeleton className="h-8 w-8"/>
+        <div className="mb-1 flex items-center justify-between">
+          <Skeleton className="h-8 w-1/2" />
+          <Skeleton className="h-8 w-8" />
         </div>
         <div className="space-y-2">
           <NavItem.Skeleton />
@@ -57,15 +60,13 @@ export default function Sidebar({
           <NavItem.Skeleton />
         </div>
       </>
-    )
+    );
   }
 
   return (
     <>
-      <div className="font-medium text-xs flex items-center mb-1">
-        <span className="pl-4">
-          Workspaces
-        </span>
+      <div className="mb-1 flex items-center text-xs font-medium">
+        <span className="pl-4">Workspaces</span>
         <Button
           asChild
           type="button"
@@ -74,7 +75,7 @@ export default function Sidebar({
           className="ml-auto"
         >
           <Link href="/select-org">
-            <Plus className="h-4 w-4"/>
+            <Plus className="h-4 w-4" />
           </Link>
         </Button>
       </div>
@@ -90,9 +91,9 @@ export default function Sidebar({
             isExpanded={expanded[mem.organization.id]}
             organization={mem.organization as Organization}
             onExpand={onExpand}
-            />
+          />
         ))}
       </Accordion>
     </>
-  )
+  );
 }

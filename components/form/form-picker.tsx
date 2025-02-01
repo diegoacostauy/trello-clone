@@ -8,14 +8,14 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { defaultImages } from "@/config/constants/image";
 import Link from "next/link";
-import FormErrors from "@/components/form/form-errors";
+import { FormErrors } from "@/components/form/form-errors";
 
 interface FormPickerProps {
   id: string;
   errors: Record<string, string[] | undefined> | undefined;
 }
 
-export default function FormPicker({ id, errors }: FormPickerProps) {
+export function FormPicker({ id, errors }: FormPickerProps) {
   const { pending } = useFormStatus();
 
   const [images, setImages] =
@@ -33,8 +33,8 @@ export default function FormPicker({ id, errors }: FormPickerProps) {
         });
 
         if (result && result.response) {
-          const images = result.response as Array<Record<string, any>>;
-          setImages(images);
+          const newImages = result.response as Array<Record<string, any>>;
+          setImages(newImages);
         } else {
           console.log("Failed to get images from Unsplash");
           setImages([]);
@@ -108,7 +108,7 @@ export default function FormPicker({ id, errors }: FormPickerProps) {
           </li>
         ))}
       </ul>
-      <FormErrors id="image" errors={errors} />
+      {errors && <FormErrors id="image" errors={errors} />}
     </div>
   );
 }

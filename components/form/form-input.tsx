@@ -1,6 +1,6 @@
 "use client";
 
-import FormErrors from "@/components/form/form-errors";
+import { FormErrors } from "@/components/form/form-errors";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
@@ -70,4 +70,4 @@ const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
 
 FormInput.displayName = "FormInput";
 
-export default FormInput;
+export { FormInput };

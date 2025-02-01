@@ -1,12 +1,12 @@
-'use client'
+"use client";
 
 import { useParams } from "next/navigation";
 import { useOrganizationList } from "@clerk/nextjs";
 import { useEffect } from "react";
 
-export default function OrgControl() {
+export function OrgControl() {
   const params = useParams();
-  const {setActive } = useOrganizationList();
+  const { setActive } = useOrganizationList();
 
   useEffect(() => {
     if (!setActive) return;
@@ -16,7 +16,6 @@ export default function OrgControl() {
     setActive({
       organization: id,
     });
-
   }, [setActive, params.id]);
 
   return null;

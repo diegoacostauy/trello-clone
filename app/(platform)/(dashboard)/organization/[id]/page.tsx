@@ -1,5 +1,5 @@
-import BoardList from "@/app/(platform)/(dashboard)/organization/[id]/_components/board-list";
-import Info from "@/app/(platform)/(dashboard)/organization/[id]/_components/info";
+import { BoardList } from "@/app/(platform)/(dashboard)/organization/[id]/_components/board-list";
+import { Info } from "@/app/(platform)/(dashboard)/organization/[id]/_components/info";
 import { Separator } from "@/components/ui/separator";
 import { Suspense } from "react";
 

@@ -1,4 +1,4 @@
-import OrgControl from "@/app/(platform)/(dashboard)/organization/[id]/_components/org-control";
+import { OrgControl } from "@/app/(platform)/(dashboard)/organization/[id]/_components/org-control";
 import { startCase } from "@/lib/utils";
 import { auth } from "@clerk/nextjs/server";
 

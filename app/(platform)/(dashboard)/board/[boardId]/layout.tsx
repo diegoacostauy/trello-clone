@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import { auth } from "@clerk/nextjs/server";
 import { notFound, redirect } from "next/navigation";
 import { db } from "@/lib/db";
-import BoardNavbar from "@/app/(platform)/(dashboard)/board/[boardId]/_components/board-navbar";
+import { BoardNavbar } from "@/app/(platform)/(dashboard)/board/[boardId]/_components/board-navbar";
 
 export async function generateMetadata({
   params,
@@ -18,6 +18,9 @@ export async function generateMetadata({
   }
 
   const board = await db.board.findUnique({
+    select: {
+      title: true,
+    },
     where: {
       id: params.boardId,
       orgId,
@@ -59,7 +62,7 @@ export default async function BoardLayout({
       className="relative h-full bg-cover bg-center bg-no-repeat before:absolute before:inset-0 before:bg-black/30"
     >
       <BoardNavbar data={board} />
-      <main className="h-full pt-[calc(var(--header-height)+3.5rem)]">
+      <main className="relative z-[1] h-full pt-[calc(var(--header-height)+3.5rem)]">
         {children}
       </main>
     </div>

@@ -23,10 +23,10 @@ export const useAction = <TInput, TOutput>(
   const [data, setData] = useState<TOutput | undefined>(undefined);
 
   const execute = useCallback(
-    async (data: TInput) => {
+    async (input: TInput) => {
       setIsLoading(true);
       try {
-        const result = await action(data);
+        const result = await action(input);
         if (!result) return;
 
         setFieldErrors(result.fieldErrors);

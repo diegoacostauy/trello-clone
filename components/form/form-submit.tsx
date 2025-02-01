@@ -19,7 +19,7 @@ interface ButtonProps {
     | "primary";
 }
 
-export default function FormSubmit({
+export function FormSubmit({
   children,
   disabled,
   className,

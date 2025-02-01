@@ -1,4 +1,4 @@
-import FormPopover from "@/components/form/form-popover";
+import { FormPopover } from "@/components/form/form-popover";
 import Hint from "@/components/hint";
 import { HelpCircle, User2 } from "lucide-react";
 import { db } from "@/lib/db";
@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
 
-export default async function BoardList() {
+export async function BoardList() {
   const { orgId } = auth();
 
   if (!orgId) {
@@ -33,7 +33,7 @@ export default async function BoardList() {
             href={`/board/${board.id}`}
             key={board.id}
             style={{ backgroundImage: `url(${board.imageThumbUrl})` }}
-            className="relative block aspect-video h-full w-full overflow-hidden rounded-sm bg-sky-700 bg-cover bg-center bg-no-repeat p-2 after:absolute after:inset-0 after:bg-black/30 after:transition hover:after:bg-black/40"
+            className="relative block aspect-video h-full w-full overflow-hidden rounded-sm bg-sky-700 bg-cover bg-center bg-no-repeat p-2 after:absolute after:inset-0 after:bg-black/30 after:transition after:duration-200 hover:after:bg-black/40"
           >
             <span className="relative z-10 font-semibold text-white">
               {board.title}

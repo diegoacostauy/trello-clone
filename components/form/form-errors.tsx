@@ -2,10 +2,10 @@ import { XCircleIcon } from "lucide-react";
 
 interface FormErrorsProps {
   id: string;
-  errors: Record<string, string[] | undefined> | undefined;
+  errors: Record<string, string[] | undefined>;
 }
 
-export default function FormErrors({ id, errors }: FormErrorsProps) {
+export function FormErrors({ id, errors }: FormErrorsProps) {
   if (!errors) return null;
 
   return (

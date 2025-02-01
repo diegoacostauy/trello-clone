@@ -1,15 +1,14 @@
 "use client";
 
-import { AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import {
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 
-import {
-  Activity,
-  CreditCard,
-  Layout,
-  Settings
-} from "lucide-react";
+import { Activity, CreditCard, Layout, Settings } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -21,40 +20,39 @@ interface NavItemProps {
   onExpand: (id: string) => void;
 }
 
-export default function NavItem({
+export function NavItem({
   isExpanded,
   isActive,
   organization,
   onExpand,
 }: NavItemProps) {
-
   const router = useRouter();
   const pathname = usePathname();
 
   const handleClick = (href: string) => {
     router.push(href);
-  }
+  };
 
   const routes = [
     {
       label: "Boards",
-      icon: <Layout className="h-4 w-4 mr-2" />,
-      href: `/organization/${organization.id}`
+      icon: <Layout className="mr-2 h-4 w-4" />,
+      href: `/organization/${organization.id}`,
     },
     {
       label: "Activity",
-      icon: <Activity className="h-4 w-4 mr-2" />,
-      href: `/organization/${organization.id}/activity`
+      icon: <Activity className="mr-2 h-4 w-4" />,
+      href: `/organization/${organization.id}/activity`,
     },
     {
       label: "Settings",
-      icon: <Settings className="h-4 w-4 mr-2" />,
-      href: `/organization/${organization.id}/settings`
+      icon: <Settings className="mr-2 h-4 w-4" />,
+      href: `/organization/${organization.id}/settings`,
     },
     {
       label: "Billing",
-      icon: <CreditCard className="h-4 w-4 mr-2" />,
-      href: `/organization/${organization.id}/billing`
+      icon: <CreditCard className="mr-2 h-4 w-4" />,
+      href: `/organization/${organization.id}/billing`,
     },
   ];
 
@@ -67,7 +65,7 @@ export default function NavItem({
           isActive && !isExpanded && "bg-sky-500/10 text-sky-700",
         )}
       >
-        <div className="gap-x-2 flex items-center">
+        <div className="flex items-center gap-x-2">
           <div className="relative h-7 w-7">
             <Image
               fill
@@ -76,9 +74,7 @@ export default function NavItem({
               className="rounded-sm object-cover"
             />
           </div>
-          <span className="font-medium text-sm">
-            {organization.name}
-          </span>
+          <span className="text-sm font-medium">{organization.name}</span>
         </div>
       </AccordionTrigger>
       <AccordionContent className="pt-1 text-neutral-700">
@@ -89,8 +85,8 @@ export default function NavItem({
             onClick={() => handleClick(route.href)}
             variant="ghost"
             className={cn(
-              "w-full font-normal justify-start pl-10 mb-1",
-              pathname == route.href && "bg-sky-500/10 text-sky-700"
+              "mb-1 w-full justify-start pl-10 font-normal",
+              pathname == route.href && "bg-sky-500/10 text-sky-700",
             )}
           >
             {route.icon} {route.label}
@@ -104,12 +100,12 @@ export default function NavItem({
 function NavItemSkeleton() {
   return (
     <div className="flex items-center gap-x-2">
-      <div className="w-10 h-10 relative shrink-0">
-        <Skeleton className="h-full w-full absolute"></Skeleton>
+      <div className="relative h-10 w-10 shrink-0">
+        <Skeleton className="absolute h-full w-full"></Skeleton>
       </div>
       <Skeleton className="h-10 w-full" />
     </div>
-  )
+  );
 }
 
 NavItem.Skeleton = NavItemSkeleton;

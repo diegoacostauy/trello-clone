@@ -2,16 +2,17 @@
 import { Board } from "@prisma/client";
 import { Button } from "@/components/ui/button";
 import { ElementRef, useRef, useState } from "react";
-import FormInput from "@/components/form/form-input";
+import { FormInput } from "@/components/form/form-input";
 import { updateBoard } from "@/actions/update-board";
 import { useAction } from "@/hooks/use-action";
 import { toast } from "sonner";
+import { Pencil } from "lucide-react";
 
 interface BoardTitleFormProps {
   data: Board;
 }
 
-export default function BoardTitleForm({ data }: BoardTitleFormProps) {
+export function BoardTitleForm({ data }: BoardTitleFormProps) {
   const formRef = useRef<ElementRef<"form">>(null);
   const inputRef = useRef<ElementRef<"input">>(null);
   const [title, setTitle] = useState(data.title);
@@ -34,6 +35,12 @@ export default function BoardTitleForm({ data }: BoardTitleFormProps) {
   };
 
   const handleBlur = () => {
+    if (inputRef.current?.value === data.title) {
+      inputRef.current?.blur();
+      setIsEditing(false);
+      return;
+    }
+
     formRef.current?.requestSubmit();
   };
 
@@ -58,6 +65,7 @@ export default function BoardTitleForm({ data }: BoardTitleFormProps) {
         <FormInput
           id="title"
           ref={inputRef}
+          errors={fieldErrors}
           onBlur={handleBlur}
           defaultValue={title}
           className="text-md h-7 border-none bg-transparent px-2 py-1 font-medium focus-visible:outline-none focus-visible:ring-transparent focus-visible:ring-offset-0"
@@ -70,9 +78,11 @@ export default function BoardTitleForm({ data }: BoardTitleFormProps) {
     <Button
       onClick={enableEditing}
       variant="transparent"
-      className="text-md h-auto w-auto p-1 px-2 font-medium"
+      className="text-md group h-auto w-auto p-1 px-2 font-medium"
     >
       {title}
+
+      <Pencil className="ms-2 h-4 w-4 opacity-0 transition duration-200 ease-out group-hover:opacity-100" />
     </Button>
   );
 }

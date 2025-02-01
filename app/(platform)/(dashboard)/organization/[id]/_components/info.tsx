@@ -4,7 +4,7 @@ import { useOrganization } from "@clerk/nextjs";
 import { CreditCard } from "lucide-react";
 import Image from "next/image";
 
-export default function Info() {
+export function Info() {
   const { organization, isLoaded } = useOrganization();
 
   if (!isLoaded) {

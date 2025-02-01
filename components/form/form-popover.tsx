@@ -6,14 +6,14 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import FormInput from "@/components/form/form-input";
-import FormSubmit from "@/components/form/form-submit";
+import { FormInput } from "@/components/form/form-input";
+import { FormSubmit } from "@/components/form/form-submit";
 import { X } from "lucide-react";
 import { useAction } from "@/hooks/use-action";
 import { createBoard } from "@/actions/create-board";
 import { toast } from "sonner";
-import { ElementRef, ReactNode, useRef } from "react";
-import FormPicker from "@/components/form/form-picker";
+import { ReactNode, useState } from "react";
+import { FormPicker } from "@/components/form/form-picker";
 import { useRouter } from "next/navigation";
 
 interface FormPopoverProps {
@@ -23,17 +23,19 @@ interface FormPopoverProps {
   sideOffset?: number;
 }
 
-export default function FormPopover({
+export function FormPopover({
   children,
   side = "bottom",
   align,
   sideOffset = 0,
 }: FormPopoverProps) {
   const router = useRouter();
-  const closeRef = useRef<ElementRef<"button">>(null);
+  // const closeRef = useRef<ElementRef<"button">>(null);
+  const [popoverOpen, setPopoverOpen] = useState(false);
   const { execute, fieldErrors } = useAction(createBoard, {
     onSuccess: (data) => {
-      closeRef.current?.click();
+      // closeRef.current?.click();
+      setPopoverOpen(false);
       toast.success("Board created successfully");
       router.push(`/board/${data.id}`);
     },
@@ -49,7 +51,7 @@ export default function FormPopover({
   };
 
   return (
-    <Popover>
+    <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
       <PopoverTrigger asChild>{children}</PopoverTrigger>
       <PopoverContent
         side={side}
@@ -61,7 +63,7 @@ export default function FormPopover({
           Create board
         </div>
         <PopoverClose
-          ref={closeRef}
+          // ref={closeRef}
           asChild
           className="absolute right-2 top-2 h-auto w-auto p-2 text-neutral-600"
         >
@@ -78,8 +80,8 @@ export default function FormPopover({
               type="text"
               errors={fieldErrors}
             />
-            <FormSubmit className="w-full">Create</FormSubmit>
           </div>
+          <FormSubmit className="w-full">Create</FormSubmit>
         </form>
       </PopoverContent>
     </Popover>

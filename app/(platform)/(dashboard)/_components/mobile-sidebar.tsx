@@ -1,6 +1,6 @@
 "use client";
 
-import Sidebar from "@/app/(platform)/(dashboard)/_components/sidebar";
+import { Sidebar } from "@/app/(platform)/(dashboard)/_components/sidebar";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { useMobileSidebar } from "@/hooks/use-mobile-sidebar";
@@ -8,14 +8,12 @@ import { MenuIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function MobileSidebar() {
+export function MobileSidebar() {
   const pathname = usePathname();
   // prevent hydration mismatch, especially when using zustand state or Modal / Sheet components
   const [isMounted, setIsMounted] = useState(false);
 
-  const onOpen = useMobileSidebar((state) => state.onOpen);
-  const onClose = useMobileSidebar((state) => state.onClose);
-  const isOpen = useMobileSidebar((state) => state.isOpen);
+  const { onOpen, onClose, isOpen } = useMobileSidebar((state) => state);
 
   useEffect(() => {
     setIsMounted(true);
