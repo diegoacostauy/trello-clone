@@ -17,7 +17,8 @@ export function Info() {
         <Image
           fill
           src={organization?.imageUrl!}
-          alt="Organization"
+          alt={`Organization ${organization?.name}`}
+          title={`Organization ${organization?.name}`}
           className="rounded-md object-cover"
         />
       </div>

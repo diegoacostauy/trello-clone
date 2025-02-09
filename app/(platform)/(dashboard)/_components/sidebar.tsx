@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Accordion } from "@/components/ui/accordion";
 import { NavItem } from "@/app/(platform)/(dashboard)/_components/nav-item";
+import { Organization } from "@/type";
 
 interface SidebarProps {
   storageKey?: string;

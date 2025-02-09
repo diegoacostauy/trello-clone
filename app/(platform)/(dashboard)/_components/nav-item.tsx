@@ -12,6 +12,7 @@ import { Activity, CreditCard, Layout, Settings } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Organization } from "@/type";
 
 interface NavItemProps {
   isExpanded: boolean;

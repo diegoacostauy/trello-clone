@@ -29,7 +29,7 @@ export function ListHeader({ data }: ListHeaderProps) {
     onSuccess: (data) => {
       toast.success(`List updated: ${data.title}`);
       setTitle(data.title);
-      setIsEditing(false);
+      disableEditing();
     },
     onError: (error) => {
       toast.error(`Error updating list: ${error}`);

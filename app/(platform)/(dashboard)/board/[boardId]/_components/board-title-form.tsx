@@ -50,7 +50,7 @@ export function BoardTitleForm({ data }: BoardTitleFormProps) {
     setTimeout(() => {
       inputRef.current?.focus();
       inputRef.current?.select();
-    });
+    },0);
   };
 
   const disableEditing = () => setIsEditing(false);
@@ -81,7 +81,6 @@ export function BoardTitleForm({ data }: BoardTitleFormProps) {
       className="text-md group h-auto w-auto p-1 px-2 font-medium"
     >
       {title}
-
       <Pencil className="ms-2 h-4 w-4 opacity-0 transition duration-200 ease-out group-hover:opacity-100" />
     </Button>
   );

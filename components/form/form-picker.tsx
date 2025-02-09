@@ -37,7 +37,7 @@ export function FormPicker({ id, errors }: FormPickerProps) {
           setImages(newImages);
         } else {
           console.log("Failed to get images from Unsplash");
-          setImages([]);
+          setImages(defaultImages);
         }
         if (result.errors) {
           console.log(result.errors);
@@ -46,6 +46,7 @@ export function FormPicker({ id, errors }: FormPickerProps) {
       } catch (error) {
         console.log(error);
         setImages(defaultImages);
+        setIsLoading(false);
       } finally {
         setIsLoading(false);
       }

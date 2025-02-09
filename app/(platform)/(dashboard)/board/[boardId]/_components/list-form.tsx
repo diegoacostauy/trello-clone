@@ -32,7 +32,7 @@ export function ListForm() {
       onSuccess: (data) => {
         toast.success(`List created: ${data.title} in the ${data.order}`);
         disableEditing();
-        router.refresh();
+        // router.refresh();
       },
       onError: (error) => {
         toast.error(error);
