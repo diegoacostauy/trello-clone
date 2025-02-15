@@ -10,10 +10,11 @@ import { toast } from "sonner";
 import { ListOptions } from "@/app/(platform)/(dashboard)/board/[boardId]/_components/list-options";
 
 interface ListHeaderProps {
+  onAddCard: () => void;
   data: ListWithCards;
 }
 
-export function ListHeader({ data }: ListHeaderProps) {
+export function ListHeader({ data, onAddCard }: ListHeaderProps) {
   const [title, setTitle] = useState(data.title);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -100,7 +101,7 @@ export function ListHeader({ data }: ListHeaderProps) {
         </div>
       )}
       <ListOptions
-        onAddCard={() => {}}
+        onAddCard={onAddCard}
         data={data}
       />
     </div>
