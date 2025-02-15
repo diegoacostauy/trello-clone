@@ -1,12 +1,13 @@
 "use client";
 
 import { ListWithCards } from "@/type";
-import { ElementRef, useRef, useState } from "react";
+import { ElementRef, useEffect, useRef, useState } from "react";
 import { useEventListener } from "usehooks-ts";
 import { FormInput } from "@/components/form/form-input";
 import { useAction } from "@/hooks/use-action";
 import { updateList } from "@/actions/update-list";
 import { toast } from "sonner";
+import { ListOptions } from "@/app/(platform)/(dashboard)/board/[boardId]/_components/list-options";
 
 interface ListHeaderProps {
   data: ListWithCards;
@@ -71,7 +72,7 @@ export function ListHeader({ data }: ListHeaderProps) {
   useEventListener("keydown", onKeyDown);
 
   return (
-    <div className="flex items-start justify-between gap-x-2 px-2 pt-2 text-sm font-semibold">
+    <div className="flex items-center justify-between gap-x-2 p-2 text-sm font-semibold">
       {isEditing ? (
         <form action={handleSubmit} ref={formRef} className="flex-1 px-[2px]">
           <input type="hidden" name="id" id="id" value={data.id} />
@@ -98,6 +99,10 @@ export function ListHeader({ data }: ListHeaderProps) {
           {title}
         </div>
       )}
+      <ListOptions
+        onAddCard={() => {}}
+        data={data}
+      />
     </div>
   );
 }
