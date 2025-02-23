@@ -2,10 +2,13 @@
 
 import { CreateBoard } from "@/actions/create-board/schema";
 import { InputType, ReturnType } from "@/actions/create-board/type";
+import { createAuditLog } from "@/lib/create-audit-log";
 import { createSafeAction } from "@/lib/create-safe-action";
 import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
+import { ACTION, ENTITY } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+import { list } from "postcss";
 
 const handler = async (data: InputType): Promise<ReturnType> => {
   const { userId, orgId } = auth();
@@ -45,6 +48,14 @@ const handler = async (data: InputType): Promise<ReturnType> => {
         imageUserName,
       },
     });
+
+    await createAuditLog({
+      entityId: board.id,
+      entityTitle: board.title,
+      entity: ENTITY.BOARD,
+      action: ACTION.CREATE,
+    });
+
   } catch (error) {
     return {
       error: "Failed to create.",

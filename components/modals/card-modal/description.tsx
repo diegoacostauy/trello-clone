@@ -37,9 +37,15 @@ export const Description = ({ data }: DescriptionProps) => {
     onSuccess: (data) => {
       setDescription(data.description || undefined);
       disableEditing();
+
       queryClient.invalidateQueries({
         queryKey: [QueryKeys.CARD, data.id],
       });
+
+      queryClient.invalidateQueries({
+        queryKey: [QueryKeys.LOGS, data.id],
+      });
+
       toast.success(`Description updated`);
     },
     onError: (error) => {

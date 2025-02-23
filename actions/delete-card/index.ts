@@ -5,6 +5,8 @@ import { db } from "@/lib/db";
 import { DeleteCard } from "@/actions/delete-card/schema";
 import { createSafeAction } from "@/lib/create-safe-action";
 import { revalidatePath } from "next/cache";
+import { createAuditLog } from "@/lib/create-audit-log";
+import { ACTION, ENTITY } from "@prisma/client";
 
 export const handler = async (data: InputType): Promise<ReturnType> => {
   const { userId, orgId } = auth();
@@ -28,6 +30,14 @@ export const handler = async (data: InputType): Promise<ReturnType> => {
         }
       }
     });
+
+    await createAuditLog({
+      entityId: card.id,
+      entityTitle: card.title,
+      entity: ENTITY.CARD,
+      action: ACTION.DELETE,
+    });
+
   } catch (error) {
     return {
       error: "Failed to delete.",
