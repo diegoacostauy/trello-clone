@@ -45,6 +45,7 @@ export const Description = ({ data }: DescriptionProps) => {
     onError: (error) => {
       console.log(error);
       toast.error("Failed to update description.");
+      disableEditing();
     },
   });
 

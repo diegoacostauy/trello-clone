@@ -1,4 +1,5 @@
 "use client";
+import { Actions } from "@/components/modals/card-modal/actions";
 import { Description } from "@/components/modals/card-modal/description";
 import { Header } from "@/components/modals/card-modal/header";
 import { QueryKeys } from "@/components/providers/query-provider";
@@ -30,6 +31,7 @@ export const CardModal = () => {
               )}
             </div>
           </div>
+          {!cardData ? <Actions.Skeleton /> : <Actions data={cardData} />}
         </div>
       </DialogContent>
     </Dialog>

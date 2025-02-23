@@ -1,5 +1,5 @@
 "use server";
-import { InputType, ReturnType } from "@/actions/delete-list/type";
+import { InputType, ReturnType } from "@/actions/copy-list/type";
 import { auth } from "@clerk/nextjs/server";
 import { db } from "@/lib/db";
 import { CopyList } from "@/actions/copy-list/schema";
@@ -70,7 +70,7 @@ export const handler = async (data: InputType): Promise<ReturnType> => {
     });
 
 
-   } catch (error) {
+  } catch (error) {
     return {
       error: "Failed to copy.",
     };
