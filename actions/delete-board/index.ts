@@ -8,6 +8,8 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createAuditLog } from "@/lib/create-audit-log";
 import { ACTION, ENTITY } from "@prisma/client";
+import { decreaseBoardCount } from "@/lib/org-limit";
+import { checkSubscription } from "@/lib/subscription";
 
 export const handler = async (data: InputType): Promise<ReturnType> => {
   const { userId, orgId } = auth();
@@ -16,6 +18,8 @@ export const handler = async (data: InputType): Promise<ReturnType> => {
       error: "Unauthorized!",
     };
   }
+
+  const isPro = await checkSubscription();
 
   const { id } = data;
   let board;
@@ -27,6 +31,10 @@ export const handler = async (data: InputType): Promise<ReturnType> => {
         orgId,
       },
     });
+
+    if (!isPro) {
+      await decreaseBoardCount();
+    }
 
     await createAuditLog({
       entityId: board.id,

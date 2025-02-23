@@ -5,6 +5,8 @@ import { InputType, ReturnType } from "@/actions/create-board/type";
 import { createAuditLog } from "@/lib/create-audit-log";
 import { createSafeAction } from "@/lib/create-safe-action";
 import { db } from "@/lib/db";
+import { hasAvailableBoards, incrementBoardCount } from "@/lib/org-limit";
+import { checkSubscription } from "@/lib/subscription";
 import { auth } from "@clerk/nextjs/server";
 import { ACTION, ENTITY } from "@prisma/client";
 import { revalidatePath } from "next/cache";
@@ -17,6 +19,15 @@ const handler = async (data: InputType): Promise<ReturnType> => {
     return {
       error: "Unauthorized!",
     };
+  }
+
+  const canCreateBoard = await hasAvailableBoards();
+  const isPro = await checkSubscription();
+
+  if (!canCreateBoard && !isPro) {
+    return {
+      error: "You have reached your limit of free boards. Please upgrade to create more."
+    }
   }
 
   const { title, image } = data;
@@ -48,6 +59,10 @@ const handler = async (data: InputType): Promise<ReturnType> => {
         imageUserName,
       },
     });
+
+    if (!isPro) {
+      await incrementBoardCount();
+    }
 
     await createAuditLog({
       entityId: board.id,
